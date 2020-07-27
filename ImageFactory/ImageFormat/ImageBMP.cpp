@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ImageBMP.h"
 
-ImageBMP::ImageBMP(uint32_t height, uint32_t width):ImageRead(height, width) {
+ImageBMP::ImageBMP(uint32_t height, uint32_t width):ImageRead() {
   image_ = new cv::Mat(height, width, CV_8UC3);
   if(!image_)
   {
@@ -18,6 +18,12 @@ ImageBMP::~ImageBMP() {
   }
 }
 
-void ImageBMP::ReadImage(std::string file_path) {
+bool ImageBMP::ReadImage(std::string file_path) {
   *image_ = cv::imread(file_path, cv::IMREAD_UNCHANGED);
+  if(!image_)
+  {
+    std::cout << "Read BMP Image is error!" << std::endl;
+    return false;
+  }
+  return true;
 }

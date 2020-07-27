@@ -1,19 +1,19 @@
-#include "ImageRead.h"
-#include "ImageFormat/ImageBMP.h"
-#include "ImageFormat/ImageYUV.h"
+#include "ImageFactory.h"
+#include <iostream>
 int main()
 {
-  ImageRead *test;
-  ImageBMP bmp(1208, 1920);
-  ImageYUV yuv(1208, 1920);
-//  test = &bmp;
-//  test->ReadImage("/Users/majiali/code/ConvertImage/data/bmp_big/nm_000001_00000021_08/frame_vc1_00.bmp");
-  test = &yuv;
-  test->ReadImage("/Users/majiali/code/ConvertImage/data/yuv/nm_000001_00000021_08/frame_vc1_03.yuv");
-
-  cv::Mat image = test->GetImage();
-  cv::imshow("main", image);
-  cv::waitKey(0);
-  return 0;
+  ImageFactory image_adapter(1208, 1920);
+  ImageRead *image_ptr = image_adapter.GetImageFormat("yuv");
+  bool is_success = image_ptr->ReadImage("/Users/majiali/code/ConvertImage/data/yuv/nm_000001_00000021_08/frame_vc1_00.yuv");
+  if (is_success)
+  {
+    cv::imshow("main", image_ptr->GetImage());
+    cv::waitKey(0);
+    return 0;
+  }
+  else{
+    std::cout << "Read File is error!" << std::endl;
+    return 0;
+  }
 }
 

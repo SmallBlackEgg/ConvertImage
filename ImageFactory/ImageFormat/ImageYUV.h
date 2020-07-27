@@ -9,7 +9,7 @@ public:
   ImageYUV(uint32_t height, uint32_t width);
   ~ImageYUV();
   cv::Mat& GetImage(){return bmp_image_;}
-  void ReadImage(std::string file_path) override;
+  bool ReadImage(std::string file_path) override;
 
 private:
   cv::Mat *image_;
