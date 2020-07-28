@@ -10,7 +10,8 @@ include_directories(ImageFactory
 file(GLOB SRC_DIR
         main.cpp
         ImageFactory/*.cpp
-        ImageFactory/ImageFormat/*.cpp)
+        ImageFactory/ImageFormat/*.cpp
+        ReadFile/*.cpp)
 
 message(${SRC_DIR})
 add_executable(rgb2bmp ${SRC_DIR})

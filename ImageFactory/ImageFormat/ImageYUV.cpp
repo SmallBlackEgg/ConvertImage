@@ -20,6 +20,7 @@ bool ImageYUV::ReadImage(std::string file_path) {
     return false;
   }
   fp_.read(image_data_, image_size_);
+  fp_.close();
   image_->data = (unsigned char *) image_data_;
   cv::cvtColor(*image_, bmp_image_, cv::COLOR_YUV2BGR_I420);
   return  true;
