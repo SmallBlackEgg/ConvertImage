@@ -15,5 +15,5 @@ file(GLOB SRC_DIR
 
 message(${SRC_DIR})
 add_executable(rgb2bmp ${SRC_DIR})
-target_link_libraries(rgb2bmp ${OpenCV_LIBS})
+target_link_libraries(rgb2bmp ${OpenCV_LIBS} pthread)
 #target_link_libraries(untitled pthread)
