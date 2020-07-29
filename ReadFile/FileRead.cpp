@@ -7,7 +7,7 @@ FileRead::FileRead(uint32_t height, uint32_t width) {
 
 int FileRead::FileNameFilter(const struct dirent *cur_dir) {
   std::string file_name(cur_dir->d_name);
-  if(file_name.find(format_) != std::string::npos) {
+  if(file_name.find("." + format_) != std::string::npos) {
     return 1;
   }
   return 0;
