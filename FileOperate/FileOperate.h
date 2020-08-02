@@ -7,12 +7,12 @@
 #include <mutex>
 #include <atomic>
 #include "ImageFactory.h"
-class FileRead {
+class FileOperate {
 public:
-  FileRead(uint32_t height, uint32_t width, uint32_t thread_num);
+  FileOperate(uint32_t height, uint32_t width, uint32_t thread_num);
   void PreProcessFile(const char *file_path);
   void ThreadRead();
-  static void Read(uint32_t  start, uint32_t file_num, FileRead *this_ptr);
+  static void Read(uint32_t  start, uint32_t file_num, FileOperate *this_ptr);
 private:
   //TODO : How to deliver this format？
   static int FileNameFilter(const struct dirent *cur_dir);

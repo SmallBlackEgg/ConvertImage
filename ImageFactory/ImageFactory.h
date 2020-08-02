@@ -8,7 +8,6 @@ public:
   ImageRead *GetImageFormat(std::string format);
 
 private:
-  ImageRead *image_adapter_;
   uint32_t image_height_;
   uint32_t image_width_;
 };

@@ -18,3 +18,4 @@ ImageRead * ImageFactory::GetImageFormat(std::string format) {
   std::cout << "The format is error!" << std::endl;
   return nullptr;
 }
+
