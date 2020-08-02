@@ -1,6 +1,5 @@
 #include "FileOperate.h"
 
-std::mutex g_lock;
 
 FileOperate::FileOperate(uint32_t height, uint32_t width, uint32_t thread_num): thread_num_(thread_num) {
   image_adapter_ = std::make_shared<ImageFactory>(height, width);
@@ -19,7 +18,7 @@ int FileOperate::FileNameFilter(const struct dirent *cur_dir) {
 }
 
 void FileOperate::Read(uint32_t start, uint32_t file_num, FileOperate *this_ptr) {
-  std::atomic_bool is_read_success(false);
+  bool is_read_success = false;
   for(uint32_t i = start; i < start + file_num; i++)
   {
     is_read_success = this_ptr->image_read_->ReadImage(this_ptr->file_path_list_[i]);
@@ -28,7 +27,6 @@ void FileOperate::Read(uint32_t start, uint32_t file_num, FileOperate *this_ptr)
     sprintf(file_name, "./%d.bmp",frame++);
     if(is_read_success)
     {
-      std::lock_guard<std::mutex> lock(g_lock);
       cv::Mat image = this_ptr->image_read_->GetImage();
       cv::imwrite(file_name,this_ptr->image_read_->GetImage());
     } else{

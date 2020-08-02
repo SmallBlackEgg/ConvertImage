@@ -4,8 +4,6 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <mutex>
-#include <atomic>
 #include "ImageFactory.h"
 class FileOperate {
 public:
@@ -13,6 +11,7 @@ public:
   void PreProcessFile(const char *file_path);
   void ThreadRead();
   static void Read(uint32_t  start, uint32_t file_num, FileOperate *this_ptr);
+//  void Write(unsigned  char * data, uint32_t size, std::string &file_path);
 private:
   //TODO : How to deliver this format？
   static int FileNameFilter(const struct dirent *cur_dir);

@@ -2,6 +2,7 @@
 
 #include "ImageYUV.h"
 
+std::mutex g_mutex;
 ImageYUV::ImageYUV(uint32_t height, uint32_t width) : image_height_(height),
                                                       image_width_(width), ImageRead() {
   image_size_ = image_height_ * 3 / 2 * image_width_;
@@ -14,16 +15,20 @@ ImageYUV::ImageYUV(uint32_t height, uint32_t width) : image_height_(height),
 }
 
 bool ImageYUV::ReadImage(std::string file_path) {
+  std::lock_guard<std::mutex> lock(g_mutex);
   fp_.open(file_path, std::ifstream::binary);
   if(fp_.fail()) {
     std::cout << "The file " << file_path << "is error!" << std::endl;
+    fp_.close();
     return false;
   }
   fp_.read(image_data_, image_size_);
   fp_.close();
-  image_->data = (unsigned char *) image_data_;
+
+  memcpy(image_->data, image_data_, image_size_);
+  memset(image_data_, '\0', image_size_);
   cv::cvtColor(*image_, bmp_image_, cv::COLOR_YUV2BGR_I420);
-  return  true;
+  return true;
 }
 
 ImageYUV::~ImageYUV() {
