@@ -1,8 +1,8 @@
+#pragma once
 #include "ImageRead.h"
 #include <opencv2/imgproc.hpp>
 #include <fstream>
 #include <iostream>
-#include <mutex>
 
 class ImageYUV: public ImageRead{
 public:
@@ -15,9 +15,8 @@ public:
 private:
   cv::Mat *image_;
   cv::Mat bmp_image_;
-  std::ifstream fp_;
   uint32_t image_height_;
   uint32_t image_width_;
   uint32_t image_size_;
-  char *image_data_;
+  std::atomic_char *image_data_;
 };

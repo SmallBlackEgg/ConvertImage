@@ -1,4 +1,3 @@
-#pragma once
 #include "ImageRead.h"
 #include <string>
 class ImageFactory {

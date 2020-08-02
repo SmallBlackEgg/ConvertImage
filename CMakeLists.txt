@@ -11,7 +11,8 @@ file(GLOB SRC_DIR
         main.cpp
         ImageFactory/*.cpp
         ImageFactory/ImageFormat/*.cpp
-        FileOperate/*.cpp)
+        FileOperate/*.cpp
+        utils/*.cpp)
 
-add_executable(${PROJECT_NAME} ${SRC_DIR} utils/ImageConvert.cpp utils/ImageConvert.h)
+add_executable(${PROJECT_NAME} ${SRC_DIR})
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} pthread)

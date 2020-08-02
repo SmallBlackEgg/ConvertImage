@@ -6,7 +6,7 @@ ImageFactory::ImageFactory(uint32_t height, uint32_t width):image_height_(height
 
 ImageFactory::~ImageFactory() {}
 
-ImageRead * ImageFactory::GetImageFormat(std::string format) {
+ImageRead* ImageFactory::GetImageFormat(std::string format) {
   if(format == "yuv")
   {
     return new ImageYUV(image_height_, image_width_);
