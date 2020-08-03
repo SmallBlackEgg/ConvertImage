@@ -1,4 +1,3 @@
-#pragma once
 #include "ImageRead.h"
 
 class ImageBMP: public ImageRead {

@@ -1,3 +1,4 @@
+#include <mutex>
 #include "FileRead.h"
 
 
@@ -22,11 +23,13 @@ int FileRead::FileNameFilter(const struct dirent *cur_dir) {
   return 0;
 }
 
+std::mutex g_mutex1;
 void FileRead::Read(uint32_t start, uint32_t file_num, FileRead *this_ptr) {
   bool is_read_success = false;
   ImageRead * image_read = this_ptr->image_read_;
   for(uint32_t i = start; i < start + file_num; i++)
   {
+    std::lock_guard<std::mutex> lock(g_mutex1);
     is_read_success = image_read->ReadImage(this_ptr->file_path_list_[i]);
     std::string out_file_path = this_ptr->file_path_out_ + this_ptr->file_name_[i];
     if(is_read_success)
