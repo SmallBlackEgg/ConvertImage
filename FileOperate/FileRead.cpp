@@ -1,4 +1,3 @@
-#include <mutex>
 #include "FileRead.h"
 
 
@@ -23,22 +22,21 @@ int FileRead::FileNameFilter(const struct dirent *cur_dir) {
   return 0;
 }
 
-std::mutex g_mutex1;
 void FileRead::Read(uint32_t start, uint32_t file_num, FileRead *this_ptr) {
   bool is_read_success = false;
   ImageRead * image_read = this_ptr->image_read_;
+  cv::Mat bmp_image;
   for(uint32_t i = start; i < start + file_num; i++)
   {
-    std::lock_guard<std::mutex> lock(g_mutex1);
-    is_read_success = image_read->ReadImage(this_ptr->file_path_list_[i]);
+    is_read_success = image_read->ReadImage(this_ptr->file_path_list_[i], bmp_image);
     std::string out_file_path = this_ptr->file_path_out_ + this_ptr->file_name_[i];
     if(is_read_success)
     {
-      this_ptr->file_write_->Write(image_read->GetImage(),
-                                   image_read->GetImage().channels() * image_read->GetImage().cols *
-                                   image_read->GetImage().rows, out_file_path);
+      this_ptr->file_write_->Write(bmp_image,
+                                   bmp_image.channels() * bmp_image.cols *
+                                     bmp_image.rows, out_file_path);
     } else{
-      std::cout << "Read Image " << this_ptr->file_path_list_[i] <<" is error!" << std::endl;
+      std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Read Image " << this_ptr->file_path_list_[i] <<" is error!" << std::endl;
       return;
     }
   }
@@ -68,11 +66,10 @@ void FileRead::PreProcessFile() {
 
   uint32_t file_count= scandir(file_path_in_.c_str(), &file_name_list_, FileNameFilter, alphasort);
   if(file_count < 0) {
-    std::cout << "Read file name is error!" << std::endl;
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Read file name is error!" << std::endl;
   }
   std::string full_path;
   for(uint32_t i = 0; i < file_count; i++) {
-    std::cout << file_name_list_[i]->d_name << std::endl;
     full_path = file_path_in_ + std::string(file_name_list_[i]->d_name);
     file_path_list_.emplace_back(std::move(full_path));
     file_name_.emplace_back(std::move(file_name_list_[i]->d_name));

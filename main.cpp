@@ -1,12 +1,12 @@
 #include "FileRead.h"
 #include <iostream>
-
-std::string FileRead::format_ = "bmp";
+#include "utils/ImageOperate.h"
+std::string FileRead::format_ = "yuv";
 
 int main() {
-  FileRead test(1208, 1920, 3, "/Users/majiali/code/ConvertImage/data/bmp_big/nm_000001_00000021_08/",
+  FileRead test(1208, 1920, 3, "/Users/majiali/code/ConvertImage/data/yuv/nm_000001_00000021_08/",
                 "/Users/majiali/code/ConvertImage/cmake-build-debug/",
-                "yuv");
+                "bmp");
   test.PreProcessFile();
   test.ThreadRead();
   return 0;

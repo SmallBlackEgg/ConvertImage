@@ -15,7 +15,7 @@ ImageRead* ImageFactory::GetImageFormat(std::string format) {
   {
     return new ImageBMP(image_height_, image_width_);
   }
-  std::cout << "The format is error!" << std::endl;
+  std::cout << __FILE_NAME__ << ":" << __LINE__ << ":The format is error!" << std::endl;
   return nullptr;
 }
 

@@ -1,45 +1,35 @@
 #include "ImageYUV.h"
+#include <fstream>
+#include <opencv2/imgproc.hpp>
+
+static void NewHandler()
+{
+  std::cout << __FILE_NAME__ <<":"<< __LINE__ << ":Unable to new data!" << std::endl;
+}
 
 ImageYUV::ImageYUV(uint32_t height, uint32_t width) : image_height_(height),
                                                       image_width_(width), ImageRead() {
   image_size_ = image_height_ * 3 / 2 * image_width_;
-  image_ = new cv::Mat(height * 3 / 2, width, CV_8UC1);
-  image_data_ = new unsigned char [image_size_];
-  if(!(image_ && image_data_)) {
-    std::cout << "The YUV construct is error!" << std::endl;
-    return;
-  }
+  std::set_new_handler(NewHandler);
 }
 
-bool ImageYUV::ReadImage(std::string file_path) {
-  fp_.open(file_path, std::ifstream::binary);
-  if(fp_.fail()) {
-    std::cout << "The file " << file_path << " is error!" << std::endl;
-    fp_.close();
+bool ImageYUV::ReadImage(std::string file_path, cv::Mat &image) {
+  std::ifstream fp(file_path, std::ifstream::binary);
+  cv::Mat yuv_image(image_height_ * 3 / 2, image_width_, CV_8UC1);
+  if(fp.fail()) {
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":The file " << file_path << " is error!" << std::endl;
+    fp.close();
     return false;
   }
-  fp_.read((char*)image_data_, image_size_);
-  fp_.close();
 
-  memcpy(image_->data, image_data_, image_size_);
-  memset(image_data_, '\0', image_size_);
-  cv::cvtColor(*image_, bmp_image_, cv::COLOR_YUV2BGR_NV12);
+  char * image_data = new char [image_size_];
+  fp.read(image_data, image_size_);
+  memcpy(yuv_image.data, image_data, image_size_);
+  delete []image_data;
+  fp.close();
+
+  cv::cvtColor(yuv_image, image, cv::COLOR_YUV2BGR_I420);
   return true;
 }
 
-ImageYUV::~ImageYUV() {
-  if(image_) {
-    delete image_;
-    image_ = nullptr;
-  }
-
-  if(image_data_) {
-    delete[]image_data_;
-    image_data_ = nullptr;
-  }
-
-  if(fp_)
-  {
-    fp_.close();
-  }
-}
+ImageYUV::~ImageYUV() {}
