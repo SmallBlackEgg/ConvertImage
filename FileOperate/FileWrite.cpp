@@ -26,8 +26,9 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
       fp.close();
       return;
     }
-    cv::cvtColor(image, yuv_image, cv::COLOR_BGR2YUV_I420);
-    fp.write((const char *)yuv_image.data, image_size_);
+    cv::Mat bmp_image;
+    cv::cvtColor(image, bmp_image, cv::COLOR_BGR2YUV_I420);
+    fp.write((const char *)bmp_image.data, image_size_);
     fp.close();
   }
   else

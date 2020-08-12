@@ -11,7 +11,6 @@ public:
 
 private:
   uint32_t image_size_;
-  cv::Mat yuv_image;
   uint32_t height_;
   uint32_t width_;
   std::string format_;

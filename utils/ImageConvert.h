@@ -1,8 +1,11 @@
+#pragma once
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <iostream>
+
+namespace utils{
 class ImageConvert
 {
 public:
@@ -13,3 +16,4 @@ private:
   //TODO:The quality will transport by config
   cv::Mat& BGR2JPG(cv::Mat &image, uint32_t quality = 95);
 };
+}

@@ -72,7 +72,7 @@ void FileRead::PreProcessFile() {
   for(uint32_t i = 0; i < file_count; i++) {
     full_path = file_path_in_ + std::string(file_name_list_[i]->d_name);
     file_path_list_.emplace_back(std::move(full_path));
-    file_name_.emplace_back(std::move(file_name_list_[i]->d_name));
+    file_name_.emplace_back(file_name_list_[i]->d_name);
     free(file_name_list_[i]);
   }
   free(file_name_list_);

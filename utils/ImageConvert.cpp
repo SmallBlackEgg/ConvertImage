@@ -2,6 +2,8 @@
 
 #include "ImageConvert.h"
 
+using namespace utils;
+
 cv::Mat& ImageConvert::GetImageByFormat(cv::Mat &image, const std::string &format) {
   if(format == "yuv")
   {
@@ -10,7 +12,7 @@ cv::Mat& ImageConvert::GetImageByFormat(cv::Mat &image, const std::string &forma
   {
     return BGR2JPG(image);
   }
-  std::cout << "Image convert format is error!" << std::endl;
+  std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Image convert format is error!" << std::endl;
   return image;
 }
 
