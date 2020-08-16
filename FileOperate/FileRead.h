@@ -9,11 +9,14 @@
 
 class FileRead {
 public:
-  FileRead(uint32_t height, uint32_t width, uint32_t thread_num, const char *file_path_in, const char *file_path_out, const char *format_out);
+  FileRead();
+  void Run();
+private:
+  void Init();
   void PreProcessFile();
   void ThreadRead();
+
   static void Read(uint32_t  start, uint32_t file_num, FileRead *this_ptr);
-private:
   //TODO : How to deliver this format？
   static int FileNameFilter(const struct dirent *cur_dir);
 private:

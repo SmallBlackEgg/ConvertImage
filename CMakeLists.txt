@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(OpenCV REQUIRED)
 
 include_directories(ImageFactory
-        FileOperate)
+        FileOperate
+        utils
+        3rdparty/jsoncpp/include)
+
+link_directories(3rdparty/jsoncpp/lib)
 
 file(GLOB SRC_DIR
         main.cpp
@@ -15,4 +19,4 @@ file(GLOB SRC_DIR
         utils/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_DIR})
-target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} pthread)
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} json pthread)

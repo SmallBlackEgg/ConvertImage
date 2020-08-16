@@ -1,4 +1,5 @@
 #include "ImageYUV.h"
+#include "parser.h"
 #include <fstream>
 #include <opencv2/imgproc.hpp>
 
@@ -28,7 +29,12 @@ bool ImageYUV::ReadImage(std::string file_path, cv::Mat &image) {
   delete []image_data;
   fp.close();
 
-  cv::cvtColor(yuv_image, image, cv::COLOR_YUV2BGR_I420);
+  if(!RunTimeConfig::GetInstance().GetConvertConfig().is_yuv420){
+    cv::cvtColor(yuv_image, image, cv::COLOR_YUV2BGR_NV12);
+  }else
+  {
+    cv::cvtColor(yuv_image, image, cv::COLOR_YUV2BGR_I420);
+  }
   return true;
 }
 

@@ -1,12 +1,24 @@
 #include "FileRead.h"
+#include "parser.h"
 
+FileRead::FileRead() {}
 
-FileRead::FileRead(uint32_t height, uint32_t width, uint32_t thread_num, const char *file_path_in,
-                   const char *file_path_out, const char *format) : thread_num_(thread_num),
-                                                                    file_path_in_(file_path_in),
-                                                                    file_path_out_(file_path_out), format_out_(format) {
-  image_adapter_ = std::make_shared<ImageFactory>(height, width);
-  file_write_ = std::make_shared<FileWrite>(height, width, format_out_);
+std::string FileRead::format_;//https://en.cppreference.com/w/cpp/language/initialization
+
+void FileRead::Init() {
+
+  uint32_t image_height = RunTimeConfig::GetInstance().GetConvertConfig().image_height;
+  uint32_t image_width = RunTimeConfig::GetInstance().GetConvertConfig().image_width;
+  file_path_in_ = RunTimeConfig::GetInstance().GetConvertConfig().file_path_in;
+  file_path_out_ = RunTimeConfig::GetInstance().GetConvertConfig().file_path_out;
+  format_out_ = RunTimeConfig::GetInstance().GetConvertConfig().convert_out;
+  thread_num_ = RunTimeConfig::GetInstance().GetConvertConfig().thread_num;
+  format_ = RunTimeConfig::GetInstance().GetConvertConfig().convert_in;
+  file_path_in_ += "/";
+  file_path_out_ += "/";
+
+  image_adapter_ = std::make_shared<ImageFactory>(image_height, image_width);
+  file_write_ = std::make_shared<FileWrite>(image_height, image_width, format_out_);
   image_read_ = image_adapter_->GetImageFormat(format_);
 
   //TODO:How to reasonably open up space？
@@ -63,7 +75,6 @@ void FileRead::ThreadRead() {
 }
 
 void FileRead::PreProcessFile() {
-
   uint32_t file_count= scandir(file_path_in_.c_str(), &file_name_list_, FileNameFilter, alphasort);
   if(file_count < 0) {
     std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Read file name is error!" << std::endl;
@@ -76,4 +87,10 @@ void FileRead::PreProcessFile() {
     free(file_name_list_[i]);
   }
   free(file_name_list_);
+}
+
+void FileRead::Run(){
+  Init();
+  PreProcessFile();
+  ThreadRead();
 }

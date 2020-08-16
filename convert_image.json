@@ -1,0 +1,28 @@
+{
+  "convert" :
+  {
+    "file_path_in" : "/Users/majiali/code/ConvertImage/cmake-build-debug/",
+    "file_path_out" : "/Users/majiali/code/ConvertImage/cmake-build-debug/",
+    "image_height" : 1208,
+    "image_width" : 1920,
+    "convert_in" : "yuv",
+    //true:YUV420  false:YUV420SP(nv12)
+    "is_yuv420": true,
+    "convert_out" : "bmp",
+    "thread_num" : 1,
+    "is_cut" : false,
+    "is_resize" : false
+  },
+  "cut" :
+  {
+    "bottom" : 0,
+    "left" : 0,
+    "right" : 0,
+    "top" : 0
+  },
+  "resize" :
+  {
+    "height" : 0,
+    "width" : 0
+  }
+}
