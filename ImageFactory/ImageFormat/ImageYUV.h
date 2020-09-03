@@ -2,7 +2,7 @@
 #include "ImageRead.h"
 #include <iostream>
 
-class ImageYUV: public ImageRead{
+class ImageYUV : public ImageRead {
 public:
   ImageYUV(uint32_t height, uint32_t width);
   ~ImageYUV();

@@ -11,6 +11,3 @@ private:
   uint32_t image_height_;
   uint32_t image_width_;
 };
-
-
-

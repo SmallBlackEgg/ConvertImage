@@ -1,8 +1,8 @@
 #pragma once
+#include <fstream>
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include <fstream>
 class FileWrite {
 public:
   FileWrite(uint32_t height, uint32_t width, std::string format);
