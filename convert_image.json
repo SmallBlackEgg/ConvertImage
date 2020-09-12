@@ -1,8 +1,8 @@
 {
   "convert" :
   {
-    "file_path_in" : "/Users/majiali/code/ConvertImage/cmake-build-debug/",
-    "file_path_out" : "/Users/majiali/code/ConvertImage/cmake-build-debug/",
+    "file_path_in" : "../cmake-build-debug/",
+    "file_path_out" : "../cmake-build-debug/",
     "image_height" : 1208,
     "image_width" : 1920,
     "convert_in" : "yuv",

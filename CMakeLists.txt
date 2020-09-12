@@ -5,9 +5,10 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(OpenCV REQUIRED)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-
+    add_definitions(-D DARWIN)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_compile_definitions(__FILE_NAME__=__FILE__)
+    add_definitions(-D LINUX)
 endif()
 
 include_directories(ImageFactory
@@ -22,6 +23,7 @@ file(GLOB SRC_DIR
         ImageFactory/*.cpp
         ImageFactory/ImageFormat/*.cpp
         FileOperate/*.cpp
+        LiveImage/*.cpp
         utils/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_DIR})
