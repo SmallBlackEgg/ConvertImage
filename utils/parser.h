@@ -37,9 +37,7 @@ public:
   ConvertConfig &GetConvertConfig();
   CutConfig &GetCutConfig();
   ResizeConfig &GetResizeConfig();
-  bool SetConvertConfig(Json::Value &root);
-  bool SetCutConfig(Json::Value &root);
-  bool SetResizeConfig(Json::Value &root);
+
 
 private:
   RunTimeConfig() = default;
@@ -54,6 +52,10 @@ public:
   static ParserConfig &GetInstance();
 
 private:
+  bool SetConvertConfig(Json::Value &root);
+  bool SetCutConfig(Json::Value &root);
+  bool SetResizeConfig(Json::Value &root);
+
   ParserConfig() = default;
   void ReadJsonFile(const std::string &file_path, Json::Value &root);
   bool is_parse_;

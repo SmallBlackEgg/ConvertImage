@@ -49,54 +49,54 @@ RunTimeConfig &RunTimeConfig::GetInstance() {
   return config;
 }
 
-bool RunTimeConfig::SetConvertConfig(Json::Value &root) {
+bool ParserConfig::SetConvertConfig(Json::Value &root) {
   return GetStringValue(
              root["convert"]["file_path_in"], MAX_STRING_SIZE,
-             RunTimeConfig::GetInstance().convert_config_.file_path_in) &&
+             RunTimeConfig::GetInstance().GetConvertConfig().file_path_in) &&
          GetStringValue(
              root["convert"]["file_path_out"], MAX_STRING_SIZE,
-             RunTimeConfig::GetInstance().convert_config_.file_path_out) &&
+             RunTimeConfig::GetInstance().GetConvertConfig().file_path_out) &&
          GetStringValue(
              root["convert"]["convert_in"], MAX_STRING_SIZE,
-             RunTimeConfig::GetInstance().convert_config_.convert_in) &&
+             RunTimeConfig::GetInstance().GetConvertConfig().convert_in) &&
          GetStringValue(
              root["convert"]["convert_out"], MAX_STRING_SIZE,
-             RunTimeConfig::GetInstance().convert_config_.convert_out) &&
+             RunTimeConfig::GetInstance().GetConvertConfig().convert_out) &&
          GetIntValue(
              root["convert"]["image_height"],
-             &(RunTimeConfig::GetInstance().convert_config_.image_height)) &&
+             &(RunTimeConfig::GetInstance().GetConvertConfig().image_height)) &&
          GetIntValue(
              root["convert"]["image_width"],
-             &(RunTimeConfig::GetInstance().convert_config_.image_width)) &&
+             &(RunTimeConfig::GetInstance().GetConvertConfig().image_width)) &&
          GetBoolValue(
              root["convert"]["is_yuv420"],
-             &(RunTimeConfig::GetInstance().convert_config_.is_yuv420)) &&
+             &(RunTimeConfig::GetInstance().GetConvertConfig().is_yuv420)) &&
          GetBoolValue(root["convert"]["is_cut"],
-                      &(RunTimeConfig::GetInstance().convert_config_.is_cut)) &&
+                      &(RunTimeConfig::GetInstance().GetConvertConfig().is_cut)) &&
          GetBoolValue(
              root["convert"]["is_resize"],
-             &(RunTimeConfig::GetInstance().convert_config_.is_resize)) &&
+             &(RunTimeConfig::GetInstance().GetConvertConfig().is_resize)) &&
          GetIntValue(
              root["convert"]["thread_num"],
-             &(RunTimeConfig::GetInstance().convert_config_.thread_num));
+             &(RunTimeConfig::GetInstance().GetConvertConfig().thread_num));
 }
 
-bool RunTimeConfig::SetCutConfig(Json::Value &root) {
+bool ParserConfig::SetCutConfig(Json::Value &root) {
   return GetIntValue(root["cut"]["bottom"],
-                     &(RunTimeConfig::GetInstance().cut_config_.bottom)) &&
+                     &(RunTimeConfig::GetInstance().GetCutConfig().bottom)) &&
          GetIntValue(root["cut"]["left"],
-                     &(RunTimeConfig::GetInstance().cut_config_.left)) &&
+                     &(RunTimeConfig::GetInstance().GetCutConfig().left)) &&
          GetIntValue(root["cut"]["right"],
-                     &(RunTimeConfig::GetInstance().cut_config_.right)) &&
+                     &(RunTimeConfig::GetInstance().GetCutConfig().right)) &&
          GetIntValue(root["cut"]["top"],
-                     &(RunTimeConfig::GetInstance().cut_config_.top));
+                     &(RunTimeConfig::GetInstance().GetCutConfig().top));
 }
 
-bool RunTimeConfig::SetResizeConfig(Json::Value &root) {
+bool ParserConfig::SetResizeConfig(Json::Value &root) {
   return GetIntValue(root["resize"]["height"],
-                     &(RunTimeConfig::GetResizeConfig().height)) &&
+                     &(RunTimeConfig::GetInstance().GetResizeConfig().height)) &&
          GetIntValue(root["resize"]["width"],
-                     &(RunTimeConfig::GetResizeConfig().width));
+                     &(RunTimeConfig::GetInstance().GetResizeConfig().width));
 }
 
 ParserConfig &ParserConfig::GetInstance() {
@@ -136,7 +136,7 @@ bool ParserConfig::ParseConfigFile(const std::string &file_path) {
   Json::Value root;
   ReadJsonFile(file_path, root);
 
-  return RunTimeConfig::GetInstance().SetConvertConfig(root) &&
-         RunTimeConfig::GetInstance().SetCutConfig(root) &&
-         RunTimeConfig::GetInstance().SetResizeConfig(root);
+  return SetConvertConfig(root) &&
+         SetCutConfig(root) &&
+         SetResizeConfig(root);
 }
