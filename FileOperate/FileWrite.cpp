@@ -1,5 +1,6 @@
 #include "FileWrite.h"
 #include "parser.h"
+#include "ImageOperate.h"
 
 FileWrite::FileWrite(uint32_t height, uint32_t width, std::string format)
     : height_(height), width_(width), format_(std::move(format)) {
@@ -8,6 +9,12 @@ FileWrite::FileWrite(uint32_t height, uint32_t width, std::string format)
   } else if (format_ == "bmp") {
     image_size_ = height_ * width_ * 3;
   }
+  cut_bottom_ = RunTimeConfig::GetInstance().GetCutConfig().bottom;
+  cut_top_ = RunTimeConfig::GetInstance().GetCutConfig().top;
+  cut_left_ = RunTimeConfig::GetInstance().GetCutConfig().left;
+  cut_right_ = RunTimeConfig::GetInstance().GetCutConfig().right;
+  resize_height_ = RunTimeConfig::GetInstance().GetResizeConfig().height;
+  resize_width_ = RunTimeConfig::GetInstance().GetResizeConfig().width;
 }
 
 FileWrite::~FileWrite() {}
@@ -29,6 +36,14 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
   file_path += format_;
   std::cout << __FILE_NAME__ << ":" << __LINE__ << ":" << file_path
             << std::endl;
+  if(RunTimeConfig::GetInstance().GetConvertConfig().is_cut)
+  {
+    utils::ImageCut(image, cut_top_, cut_bottom_, cut_left_, cut_right_);
+  }
+  if(RunTimeConfig::GetInstance().GetConvertConfig().is_resize)
+  {
+    utils::ImageResize(image, resize_width_, resize_height_);
+  }
   if (format_ == "yuv") {
     std::ofstream fp;
     fp.open(file_path, std::ofstream::binary);

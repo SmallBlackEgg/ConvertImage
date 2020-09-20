@@ -13,5 +13,11 @@ private:
   uint32_t image_size_;
   uint32_t height_;
   uint32_t width_;
+  uint32_t cut_top_;
+  uint32_t cut_bottom_;
+  uint32_t cut_left_;
+  uint32_t cut_right_;
+  uint32_t resize_height_;
+  uint32_t resize_width_;
   std::string format_;
 };

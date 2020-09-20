@@ -37,10 +37,11 @@ void LiveYUV::Read(uint32_t start, uint32_t file_num) {
   cv::Mat bmp_image;
   uint32_t i = start;
   int32_t base_line = 0;
+  cv::namedWindow("LiveYuv",cv::WINDOW_AUTOSIZE);
   while (g_is_run) {
     is_read_success = image_read_->ReadImage(file_path_list_[i], bmp_image);
-    std::cout << file_path_list_[i] << std::endl;
-    cv::imshow(file_name_[i], bmp_image);
+    cv::putText(bmp_image, file_name_[i], cv::Point(0, 40), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 0, 255), 2);
+    cv::imshow("LiveYuv", bmp_image);
     int key = cv::waitKeyEx(0);
 #ifdef DARWIN
     if(key == 63232 || key == 63234)//63232 is up, 63234 is left
@@ -82,8 +83,8 @@ void LiveYUV::Read(uint32_t start, uint32_t file_num) {
     {
       g_is_run = false;
     }
-    cv::destroyAllWindows();
   }
+  cv::destroyWindow("LiveYuv");
 }
 
 void LiveYUV::Run() {
