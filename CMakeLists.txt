@@ -18,6 +18,8 @@ include_directories(ImageFactory
 
 link_directories(3rdparty/jsoncpp/lib/${CMAKE_SYSTEM_NAME})
 
+add_subdirectory(benchmark)
+
 file(GLOB SRC_DIR
         main.cpp
         ImageFactory/*.cpp
