@@ -65,6 +65,7 @@ void WriteBmpByStream(const char *data, const char *file_path,
     fp.write((const char *)fill_data,
              (4 - image_width * bytes_of_per_pixel % 4) % 4);
   }
+  fp.close();
 }
 
 void WriteBmpByFd(const char *data, const char *file_path,
@@ -126,6 +127,7 @@ void WriteBmpByFd(const char *data, const char *file_path,
     write(fd, fill_data,
              (4 - image_width * bytes_of_per_pixel % 4) % 4);
   }
+  close(fd);
 }
 
 static void WriteImageByBinaryStream(benchmark::State &state) {
@@ -133,7 +135,7 @@ static void WriteImageByBinaryStream(benchmark::State &state) {
       "../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
-    WriteBmpByStream((const char *)image.data, "image_code_stream.bmp", 640, 384);
+    WriteBmpByStream((const char *)image.data, "image_code_stream.bmp", 1920, 1208);
   }
 }
 
@@ -142,7 +144,7 @@ static void WriteImageByBinaryFd(benchmark::State &state) {
       "../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
-    WriteBmpByFd((const char *)image.data, "image_code_fd.bmp", 640, 384);
+    WriteBmpByFd((const char *)image.data, "image_code_fd.bmp", 1920, 1208);
   }
 }
 
@@ -154,7 +156,7 @@ static void WriteImageByCv(benchmark::State &state) {
   }
 }
 
-BENCHMARK(WriteImageByBinaryStream)->Iterations(1000);
-BENCHMARK(WriteImageByBinaryFd)->Iterations(1000);
-BENCHMARK(WriteImageByCv)->Iterations(1000);
+BENCHMARK(WriteImageByBinaryStream);
+BENCHMARK(WriteImageByBinaryFd);
+BENCHMARK(WriteImageByCv);
 BENCHMARK_MAIN();

@@ -63,6 +63,7 @@ static void WriteBmp(const char *data, const char *file_path,
     write(fd, fill_data,
           (4 - image_width * bytes_of_per_pixel % 4) % 4);
   }
+  close(fd);
 }
 
 FileWrite::FileWrite(uint32_t height, uint32_t width, std::string format)

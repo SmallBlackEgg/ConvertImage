@@ -2,7 +2,7 @@
   "convert" :
   {
     "file_path_in" : "../test_data/yuv420",
-    "file_path_out" : "../test_data/bmp",
+    "file_path_out" : "../test_data/out",
     "image_height" : 1208,
     "image_width" : 1920,
     "convert_in" : "yuv",
