@@ -7,7 +7,7 @@ struct dirent **g_file_name_list;
 std::vector<std::string> g_file_path_vec;
 std::vector<std::string> g_file_name_vec;
 std::string g_format = "yuv";
-const std::string g_file_path_in= "/Users/majiali/code/ConvertImage/cmake-build-debug/";
+const std::string g_file_path_in= "../test_data/yuv420/";
 
 static void PreProcessFileByReadDir(benchmark::State &state) {
   for(auto _ : state){

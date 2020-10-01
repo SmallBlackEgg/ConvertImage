@@ -130,7 +130,7 @@ void WriteBmpByFd(const char *data, const char *file_path,
 
 static void WriteImageByBinaryStream(benchmark::State &state) {
   cv::Mat image = cv::imread(
-      "/Users/majiali/code/ConvertImage/cmake-build-debug/frame_vc1_01.bmp");
+      "../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
     WriteBmpByStream((const char *)image.data, "image_code_stream.bmp", 640, 384);
@@ -139,7 +139,7 @@ static void WriteImageByBinaryStream(benchmark::State &state) {
 
 static void WriteImageByBinaryFd(benchmark::State &state) {
   cv::Mat image = cv::imread(
-      "/Users/majiali/code/ConvertImage/cmake-build-debug/frame_vc1_01.bmp");
+      "../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
     WriteBmpByFd((const char *)image.data, "image_code_fd.bmp", 640, 384);
@@ -148,7 +148,7 @@ static void WriteImageByBinaryFd(benchmark::State &state) {
 
 static void WriteImageByCv(benchmark::State &state) {
   cv::Mat image = cv::imread(
-      "/Users/majiali/code/ConvertImage/cmake-build-debug/frame_vc1_01.bmp");
+      "../test_data/bmp/frame_vc1_01.bmp");
   for (auto it : state) {
     cv::imwrite("image_cv.bmp", image);
   }

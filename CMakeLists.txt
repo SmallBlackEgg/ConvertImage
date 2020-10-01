@@ -4,6 +4,9 @@ project(ConvertImage)
 set(CMAKE_CXX_STANDARD 14)
 find_package(OpenCV REQUIRED)
 
+set(ROOT_DIR ${CMAKE_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
+
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
     add_definitions(-D DARWIN)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
