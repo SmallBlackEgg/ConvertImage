@@ -110,7 +110,7 @@ void WriteBmpByFd(const char *data, const char *file_path,
 
   uint32_t fd = open(file_path, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
   if (fd == -1) {
-    std::cout << "Open " << file_path << "is failed" << std::endl;
+    std::cout << "Open " << file_path << " is failed" << std::endl;
     return;
   }
 
@@ -154,7 +154,7 @@ static void WriteImageByCv(benchmark::State &state) {
   }
 }
 
-BENCHMARK(WriteImageByBinaryStream)->Iterations(100);
-BENCHMARK(WriteImageByBinaryFd)->Iterations(100);
-BENCHMARK(WriteImageByCv)->Iterations(100);
+BENCHMARK(WriteImageByBinaryStream)->Iterations(1000);
+BENCHMARK(WriteImageByBinaryFd)->Iterations(1000);
+BENCHMARK(WriteImageByCv)->Iterations(1000);
 BENCHMARK_MAIN();
