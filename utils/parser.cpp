@@ -71,8 +71,9 @@ bool ParserConfig::SetConvertConfig(Json::Value &root) {
          GetBoolValue(
              root["convert"]["is_yuv420"],
              &(RunTimeConfig::GetInstance().GetConvertConfig().is_yuv420)) &&
-         GetBoolValue(root["convert"]["is_cut"],
-                      &(RunTimeConfig::GetInstance().GetConvertConfig().is_cut)) &&
+         GetBoolValue(
+             root["convert"]["is_cut"],
+             &(RunTimeConfig::GetInstance().GetConvertConfig().is_cut)) &&
          GetBoolValue(
              root["convert"]["is_resize"],
              &(RunTimeConfig::GetInstance().GetConvertConfig().is_resize)) &&
@@ -93,8 +94,9 @@ bool ParserConfig::SetCutConfig(Json::Value &root) {
 }
 
 bool ParserConfig::SetResizeConfig(Json::Value &root) {
-  return GetIntValue(root["resize"]["height"],
-                     &(RunTimeConfig::GetInstance().GetResizeConfig().height)) &&
+  return GetIntValue(
+             root["resize"]["height"],
+             &(RunTimeConfig::GetInstance().GetResizeConfig().height)) &&
          GetIntValue(root["resize"]["width"],
                      &(RunTimeConfig::GetInstance().GetResizeConfig().width));
 }
@@ -136,7 +138,5 @@ bool ParserConfig::ParseConfigFile(const std::string &file_path) {
   Json::Value root;
   ReadJsonFile(file_path, root);
 
-  return SetConvertConfig(root) &&
-         SetCutConfig(root) &&
-         SetResizeConfig(root);
+  return SetConvertConfig(root) && SetCutConfig(root) && SetResizeConfig(root);
 }

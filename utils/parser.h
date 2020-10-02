@@ -38,7 +38,6 @@ public:
   CutConfig &GetCutConfig();
   ResizeConfig &GetResizeConfig();
 
-
 private:
   RunTimeConfig() = default;
   ConvertConfig convert_config_;

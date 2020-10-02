@@ -1,16 +1,16 @@
 #include "FileWrite.h"
-#include "parser.h"
 #include "ImageOperate.h"
+#include "parser.h"
 #include <fcntl.h>
 #include <unistd.h>
 
 static void WriteBmp(const char *data, const char *file_path,
-                  const uint32_t image_width, const uint32_t image_height) {
+                     const uint32_t image_width, const uint32_t image_height) {
   // Format:Little endian
   // BMP Header (14 bytes)
   const uint32_t bytes_of_per_pixel = 3;
   uint32_t image_size = 54 + image_height * image_width *
-                             bytes_of_per_pixel; // 54 is image header size
+                                 bytes_of_per_pixel; // 54 is image header size
   unsigned char bmp_file_header[14] = {0x42, 0x4d,   // BM
                                        0x00, 0x00, 0x00, 0x00, // image size
                                        0x00, 0x00, 0x00, 0x00, // reserved bytes
@@ -60,8 +60,7 @@ static void WriteBmp(const char *data, const char *file_path,
           bytes_of_per_pixel * image_width);
     // The bytes in each row must be divisible by 4.Indivisible, fill to
     // multiples of 4
-    write(fd, fill_data,
-          (4 - image_width * bytes_of_per_pixel % 4) % 4);
+    write(fd, fill_data, (4 - image_width * bytes_of_per_pixel % 4) % 4);
   }
   close(fd);
 }
@@ -100,12 +99,10 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
   file_path += format_;
   std::cout << __FILE_NAME__ << ":" << __LINE__ << ":" << file_path
             << std::endl;
-  if(RunTimeConfig::GetInstance().GetConvertConfig().is_cut)
-  {
+  if (RunTimeConfig::GetInstance().GetConvertConfig().is_cut) {
     utils::ImageCut(image, cut_top_, cut_bottom_, cut_left_, cut_right_);
   }
-  if(RunTimeConfig::GetInstance().GetConvertConfig().is_resize)
-  {
+  if (RunTimeConfig::GetInstance().GetConvertConfig().is_resize) {
     utils::ImageResize(image, resize_width_, resize_height_);
   }
   if (format_ == "yuv") {
@@ -129,6 +126,7 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
     }
     fp.close();
   } else {
-    WriteBmp((const char *)image.data, file_path.c_str(), image.cols, image.rows);
+    WriteBmp((const char *)image.data, file_path.c_str(), image.cols,
+             image.rows);
   }
 }

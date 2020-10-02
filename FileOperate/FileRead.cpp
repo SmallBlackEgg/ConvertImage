@@ -19,17 +19,15 @@ void FileRead::Init() {
   thread_num_ = RunTimeConfig::GetInstance().GetConvertConfig().thread_num;
   format_ = RunTimeConfig::GetInstance().GetConvertConfig().convert_in;
 
-  if(access(file_path_in_.c_str(), F_OK) != 0)
-  {
-    std::cout << __FILE_NAME__ << ":" << __LINE__
-              << ":The file path in \"" << file_path_in_.c_str() << "\" is not exist!" << std::endl;
+  if (access(file_path_in_.c_str(), F_OK) != 0) {
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":The file path in \""
+              << file_path_in_.c_str() << "\" is not exist!" << std::endl;
     file_path_in_.clear();
     return;
   }
-  if(access(file_path_out_.c_str(), F_OK) != 0)
-  {
-    std::cout << __FILE_NAME__ << ":" << __LINE__
-              << ":The file path out \"" << file_path_out_.c_str() << "\" is not exist!" << std::endl;
+  if (access(file_path_out_.c_str(), F_OK) != 0) {
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":The file path out \""
+              << file_path_out_.c_str() << "\" is not exist!" << std::endl;
     file_path_out_.clear();
     return;
   }
@@ -95,8 +93,7 @@ void FileRead::ThreadRead() {
 }
 
 bool FileRead::PreProcessFile() {
-  if(file_path_in_.empty())
-  {
+  if (file_path_in_.empty()) {
     return false;
   }
   uint32_t file_count = scandir(file_path_in_.c_str(), &file_name_list_,
@@ -118,8 +115,7 @@ bool FileRead::PreProcessFile() {
 
 void FileRead::Run() {
   Init();
-  if(!PreProcessFile())
-  {
+  if (!PreProcessFile()) {
     return;
   }
   ThreadRead();

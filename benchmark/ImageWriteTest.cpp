@@ -1,13 +1,13 @@
 
 #include "benchmark.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <fstream>
 #include <iostream>
 #include <opencv2/highgui.hpp>
+#include <unistd.h>
 
 void WriteBmpByStream(const char *data, const char *file_path,
-              const uint32_t image_width, const uint32_t image_height) {
+                      const uint32_t image_width, const uint32_t image_height) {
   // Format:Little endian
   // BMP Header (14 bytes)
   const uint32_t bytes_of_per_pixel = 3;
@@ -69,12 +69,12 @@ void WriteBmpByStream(const char *data, const char *file_path,
 }
 
 void WriteBmpByFd(const char *data, const char *file_path,
-                      const uint32_t image_width, const uint32_t image_height) {
+                  const uint32_t image_width, const uint32_t image_height) {
   // Format:Little endian
   // BMP Header (14 bytes)
   const uint32_t bytes_of_per_pixel = 3;
   uint32_t image_size = 54 + image_height * image_width *
-                             bytes_of_per_pixel; // 54 is image header size
+                                 bytes_of_per_pixel; // 54 is image header size
   unsigned char bmp_file_header[14] = {0x42, 0x4d,   // BM
                                        0x00, 0x00, 0x00, 0x00, // image size
                                        0x00, 0x00, 0x00, 0x00, // reserved bytes
@@ -121,27 +121,25 @@ void WriteBmpByFd(const char *data, const char *file_path,
   for (uint32_t i = 0; i < image_height; i++) {
     // write row data from bottom to top
     write(fd, data + (image_width * (image_height - i - 1) * 3),
-             bytes_of_per_pixel * image_width);
+          bytes_of_per_pixel * image_width);
     // The bytes in each row must be divisible by 4.Indivisible, fill to
     // multiples of 4
-    write(fd, fill_data,
-             (4 - image_width * bytes_of_per_pixel % 4) % 4);
+    write(fd, fill_data, (4 - image_width * bytes_of_per_pixel % 4) % 4);
   }
   close(fd);
 }
 
 static void WriteImageByBinaryStream(benchmark::State &state) {
-  cv::Mat image = cv::imread(
-      "../test_data/bmp/frame_vc1_01.bmp");
+  cv::Mat image = cv::imread("../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
-    WriteBmpByStream((const char *)image.data, "image_code_stream.bmp", 1920, 1208);
+    WriteBmpByStream((const char *)image.data, "image_code_stream.bmp", 1920,
+                     1208);
   }
 }
 
 static void WriteImageByBinaryFd(benchmark::State &state) {
-  cv::Mat image = cv::imread(
-      "../test_data/bmp/frame_vc1_01.bmp");
+  cv::Mat image = cv::imread("../test_data/bmp/frame_vc1_01.bmp");
 
   for (auto it : state) {
     WriteBmpByFd((const char *)image.data, "image_code_fd.bmp", 1920, 1208);
@@ -149,8 +147,7 @@ static void WriteImageByBinaryFd(benchmark::State &state) {
 }
 
 static void WriteImageByCv(benchmark::State &state) {
-  cv::Mat image = cv::imread(
-      "../test_data/bmp/frame_vc1_01.bmp");
+  cv::Mat image = cv::imread("../test_data/bmp/frame_vc1_01.bmp");
   for (auto it : state) {
     cv::imwrite("image_cv.bmp", image);
   }
