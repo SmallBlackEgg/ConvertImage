@@ -17,7 +17,6 @@ private:
   virtual void Init();
   void ThreadRead();
   virtual void Read(uint32_t start, uint32_t file_num);
-  // TODO : How to deliver this format？
   static int FileNameFilter(const struct dirent *cur_dir);
 
 protected:
