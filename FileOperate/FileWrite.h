@@ -3,6 +3,7 @@
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include "ImageConvert.h"
 class FileWrite {
 public:
   FileWrite(uint32_t height, uint32_t width, std::string format);
@@ -10,6 +11,7 @@ public:
   void Write(cv::Mat &image, uint32_t size, std::string file_path);
 
 private:
+  utils::ImageConvert image_convert_;
   uint32_t image_size_;
   uint32_t height_;
   uint32_t width_;

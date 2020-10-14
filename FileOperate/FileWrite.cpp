@@ -82,17 +82,6 @@ FileWrite::FileWrite(uint32_t height, uint32_t width, std::string format)
 
 FileWrite::~FileWrite() {}
 
-static void YUV_420toNV12(unsigned char *i420_data, unsigned char *nv12_data,
-                          uint32_t width, uint32_t height) {
-  uint32_t Y_len = width * height;
-  uint32_t U_len = Y_len / 4;
-
-  memcpy(nv12_data, i420_data, Y_len);
-  for (uint32_t i = 0; i < U_len; i++) {
-    nv12_data[Y_len + 2 * i] = i420_data[Y_len + i];
-    nv12_data[Y_len + 2 * i + 1] = i420_data[Y_len + U_len + i];
-  }
-}
 
 void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
   file_path = file_path.substr(0, file_path.length() - 3);
@@ -116,17 +105,21 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
     }
     cv::Mat yuv_i420_image;
     cv::Mat yuv_nv12_image;
-    cv::cvtColor(image, yuv_i420_image, cv::COLOR_BGR2YUV_I420);
     if (!RunTimeConfig::GetInstance().GetConvertConfig().is_yuv420) {
-      YUV_420toNV12(yuv_i420_image.data, yuv_nv12_image.data,
-                    yuv_i420_image.cols, yuv_i420_image.rows);
+      image_convert_.GetImageByFormat(image, yuv_nv12_image, "nv12");
       fp.write((const char *)yuv_nv12_image.data, image_size_);
     } else {
+      image_convert_.GetImageByFormat(image, yuv_i420_image, "yuv420");
       fp.write((const char *)yuv_i420_image.data, image_size_);
     }
     fp.close();
   } else {
-    WriteBmp((const char *)image.data, file_path.c_str(), image.cols,
-             image.rows);
+    if(format_ == "bmp") {
+      WriteBmp((const char *)image.data, file_path.c_str(), image.cols,
+               image.rows);
+    } else if (format_ == "jpg") {
+      image_convert_.GetImageByFormat(image, image, "jpg");
+      cv::imwrite(file_path.c_str(), image);
+    }
   }
 }
