@@ -53,6 +53,29 @@ int FileRead::FileNameFilter(const struct dirent *cur_dir) {
   return 0;
 }
 
+int FileRead::FileSortById(const struct dirent **left_file, const struct dirent **right_file) {
+  std::string left_file_name((*left_file)->d_name);
+  std::string right_file_name((*right_file)->d_name);
+  int32_t left_begin_pos = left_file_name.rfind('_') + 1;
+  int32_t left_end_pos = left_file_name.rfind('.');
+  int32_t right_begin_pos = right_file_name.rfind('_') + 1;
+  int32_t right_end_pos = right_file_name.rfind('.');
+  if(left_begin_pos == std::string::npos || left_end_pos == std::string::npos ||
+      right_begin_pos == std::string::npos || right_end_pos == std::string::npos) {
+    return -1;
+  }
+  std::cout << left_file_name.substr(left_begin_pos, left_end_pos - left_begin_pos).c_str() << std::endl;
+  std::cout << right_file_name.substr(right_begin_pos, right_end_pos - right_begin_pos).c_str() << std::endl;
+  int a = std::atoi(left_file_name.substr(left_begin_pos, left_end_pos - left_begin_pos).c_str());
+  int b = std::atoi(right_file_name.substr(right_begin_pos, right_end_pos - right_begin_pos).c_str());
+
+  if(a < b)
+  {
+    return 1;
+  }
+  return 0;
+}
+
 void FileRead::Read(uint32_t start, uint32_t file_num) {
   bool is_read_success = false;
   cv::Mat bmp_image;
@@ -97,7 +120,7 @@ bool FileRead::PreProcessFile() {
     return false;
   }
   uint32_t file_count = scandir(file_path_in_.c_str(), &file_name_list_,
-                                FileNameFilter, alphasort);
+                                FileNameFilter, FileSortById);
   if (file_count < 0) {
     std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Read file name is error!"
               << std::endl;

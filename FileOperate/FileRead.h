@@ -18,7 +18,7 @@ private:
   void ThreadRead();
   virtual void Read(uint32_t start, uint32_t file_num);
   static int FileNameFilter(const struct dirent *cur_dir);
-
+  static int FileSortById(const struct dirent **left_file, const  struct dirent **right_file);
 protected:
   static std::string format_;
   std::shared_ptr<ImageFactory> image_adapter_;
