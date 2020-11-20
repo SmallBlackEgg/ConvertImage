@@ -62,19 +62,25 @@ int FileRead::FileSortById(const struct dirent **left_file, const struct dirent 
   int32_t right_end_pos = right_file_name.rfind('.');
   if(left_begin_pos == std::string::npos || left_end_pos == std::string::npos ||
       right_begin_pos == std::string::npos || right_end_pos == std::string::npos) {
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":The file "
+              << left_file_name.c_str() << " ----- " <<right_file_name.c_str() << " is not exist!" << std::endl;
+  }
+
+  if(std::atoi(left_file_name.substr(left_begin_pos, left_end_pos - left_begin_pos).c_str()) <
+      std::atoi(right_file_name.substr(right_begin_pos, right_end_pos - right_begin_pos).c_str()))
+  {
     return -1;
   }
-  std::cout << left_file_name.substr(left_begin_pos, left_end_pos - left_begin_pos).c_str() << std::endl;
-  std::cout << right_file_name.substr(right_begin_pos, right_end_pos - right_begin_pos).c_str() << std::endl;
-  int a = std::atoi(left_file_name.substr(left_begin_pos, left_end_pos - left_begin_pos).c_str());
-  int b = std::atoi(right_file_name.substr(right_begin_pos, right_end_pos - right_begin_pos).c_str());
-
-  if(a < b)
-  {
-    return 1;
-  }
-  return 0;
+  return 1;
 }
+
+/*
+alpha source code 
+int alphasort (const struct dirent **a, const struct dirent **b)
+{
+  return strcoll ((*a)->d_name, (*b)->d_name);
+}
+*/
 
 void FileRead::Read(uint32_t start, uint32_t file_num) {
   bool is_read_success = false;
@@ -120,7 +126,7 @@ bool FileRead::PreProcessFile() {
     return false;
   }
   uint32_t file_count = scandir(file_path_in_.c_str(), &file_name_list_,
-                                FileNameFilter, FileSortById);
+                                FileNameFilter, FileSortById);//alphasort
   if (file_count < 0) {
     std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Read file name is error!"
               << std::endl;
