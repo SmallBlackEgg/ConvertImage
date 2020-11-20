@@ -88,5 +88,5 @@ void LiveYUV::Run() {
     std::cout << it << std::endl;
   }
   // The mac os can not support child thread create GUI
-//  Read(0, file_path_list_.size());
+ Read(0, file_path_list_.size());
 }
