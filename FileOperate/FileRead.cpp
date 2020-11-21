@@ -75,7 +75,7 @@ int FileRead::FileSortById(const struct dirent **left_file, const struct dirent 
 }
 
 /*
-alpha source code 
+alpha source code  (sort by string)
 int alphasort (const struct dirent **a, const struct dirent **b)
 {
   return strcoll ((*a)->d_name, (*b)->d_name);
