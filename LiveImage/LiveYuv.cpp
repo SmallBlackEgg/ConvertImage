@@ -34,7 +34,7 @@ void LiveYUV::Read(uint32_t start, uint32_t file_num) {
   cv::Mat bmp_image;
   uint32_t i = start;
   int32_t base_line = 0;
-  cv::namedWindow("LiveYuv", cv::WINDOW_AUTOSIZE);
+  cv::namedWindow("LiveYuv", cv::WINDOW_KEEPRATIO);
   while (g_is_run) {
     is_read_success = image_read_->ReadImage(file_path_list_[i], bmp_image);
     cv::putText(bmp_image, file_name_[i], cv::Point(0, 40),
