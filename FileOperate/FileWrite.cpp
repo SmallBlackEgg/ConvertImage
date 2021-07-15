@@ -86,8 +86,6 @@ FileWrite::~FileWrite() {}
 void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
   file_path = file_path.substr(0, file_path.length() - 3);
   file_path += format_;
-  std::cout << __FILE_NAME__ << ":" << __LINE__ << ":" << file_path
-            << std::endl;
   if (RunTimeConfig::GetInstance().GetConvertConfig().is_cut) {
     utils::ImageCut(image, cut_top_, cut_bottom_, cut_left_, cut_right_);
   }
@@ -113,13 +111,19 @@ void FileWrite::Write(cv::Mat &image, uint32_t size, std::string file_path) {
       fp.write((const char *)yuv_i420_image.data, image_size_);
     }
     fp.close();
-  } else {
-    if(format_ == "bmp") {
-      WriteBmp((const char *)image.data, file_path.c_str(), image.cols,
-               image.rows);
-    } else if (format_ == "jpg") {
-      image_convert_.GetImageByFormat(image, image, "jpg");
-      cv::imwrite(file_path.c_str(), image);
-    }
+  } else if (format_ == "bmp") {
+    WriteBmp((const char *)image.data, file_path.c_str(), image.cols,
+             image.rows);
+  } else if (format_ == "jpg") {
+    image_convert_.GetImageByFormat(image, image, "jpg");
+    cv::imwrite(file_path.c_str(), image);
   }
+  else
+  {
+    std::cout << __FILE_NAME__ << ":" << __LINE__ << ":Don't support convert out format is [" << format_ << "]!"
+              << std::endl;
+    return;
+  }
+  std::cout << __FILE_NAME__ << ":" << __LINE__ << ":" << file_path
+            << std::endl;
 }
